@@ -6,6 +6,7 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {Svg, Path, Circle} from 'react-native-svg';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -56,9 +57,13 @@ class Tab extends Component {
       outputRange: [0, -26],
     });
     let iconName = 'home';
-    if (index === 1) iconName = 'search1';
-    else if (index === 2) iconName = 'bells';
-    else if (index === 3) iconName = 'user';
+    if (index === 1) {
+      iconName = 'search1';
+    } else if (index === 2) {
+      iconName = 'bells';
+    } else if (index === 3) {
+      iconName = 'user';
+    }
     return (
       <TouchableOpacity
         style={styles.buttonTab}
@@ -96,7 +101,9 @@ export default class AnimatedSvg extends Component {
         bounciness: 0,
         useNativeDriver: true,
       }).start(({finished}) => {
-        if (finished) this.animatedCircle.setValue(0);
+        if (finished) {
+          this.animatedCircle.setValue(0);
+        }
       });
       this.setState({currentIndex: index});
     }
@@ -119,37 +126,39 @@ export default class AnimatedSvg extends Component {
       outputRange: [0, 50, 0],
     });
     return (
-      <View style={styles.container}>
-        <View style={styles.viewContent}>
-          <Text onPress={this.onPressMoveTab}>Pressssssssssss</Text>
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <View style={styles.viewContent}>
+            <Text onPress={this.onPressMoveTab}>Pressssssssssss</Text>
+          </View>
+          <AnimatedSVG
+            width={`${width * 2}`}
+            height="80"
+            style={[
+              styles.containerSvg,
+              {transform: [{translateX: this.animatedMove}]},
+            ]}>
+            <Path
+              d={`M0,55 L${width},55 Q${width + tabWidth / 2},110 ${
+                width + tabWidth
+              },55 L${width * 2}, 55`}
+              strokeLinejoin="round"
+              stroke="white"
+              strokeWidth={50}
+            />
+            <AnimatedCircle
+              cx={`${width + tabWidth / 2}`}
+              cy={30}
+              r={20}
+              fill={'white'}
+              style={{transform: [{translateY}]}}
+            />
+          </AnimatedSVG>
+          <View style={styles.wrapperBottomTabBar}>
+            {data.map(this.renderTab)}
+          </View>
         </View>
-        <AnimatedSVG
-          width={`${width * 2}`}
-          height="80"
-          style={[
-            styles.containerSvg,
-            {transform: [{translateX: this.animatedMove}]},
-          ]}>
-          <Path
-            d={`M0,55 L${width},55 Q${width + tabWidth / 2},110 ${
-              width + tabWidth
-            },55 L${width * 2}, 55`}
-            strokeLinejoin="round"
-            stroke="white"
-            strokeWidth={50}
-          />
-          <AnimatedCircle
-            cx={`${width + tabWidth / 2}`}
-            cy={30}
-            r={20}
-            fill={'white'}
-            style={{transform: [{translateY}]}}
-          />
-        </AnimatedSVG>
-        <View style={styles.wrapperBottomTabBar}>
-          {data.map(this.renderTab)}
-        </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

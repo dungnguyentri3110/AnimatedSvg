@@ -11,4 +11,4 @@ import AnimatedBottom from './AnimatedBottom';
 import AnimatedModal from './AnimatedModal';
 import AnimatedButtonPlay from './AnimatedButtonPlay';
 
-AppRegistry.registerComponent(appName, () => AnimatedButtonPlay);
+AppRegistry.registerComponent(appName, () => AnimatedBottom);
